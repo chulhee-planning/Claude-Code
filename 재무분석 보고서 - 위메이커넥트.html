@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>위메이커넥트 주식회사 재무분석 보고서 (2024-2025)</title>
+  <style>
+    :root {
+      --primary: #2563EB;
+      --secondary: #475569;
+      --accent: #f8fafc;
+      --high: #ef4444;
+      --medium: #f59e0b;
+      --low: #10b981;
+      --text-dark: #334155;
+      --text-light: #94a3b8;
+      --gradient-start: #2563EB;
+      --gradient-end: #1e40af;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    }
+    
+    body {
+      background-color: var(--accent);
+      color: var(--text-dark);
+      line-height: 1.4;
+      padding: 2rem 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 18px;
+      color: var(--gradient-end);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .section-title i {
+      color: var(--primary);
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 1.5rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px var(--shadow);
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-title {
+      font-size: 14px;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .trend {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      gap: 0.25rem;
+    }
+    
+    .trend-up {
+      color: var(--high);
+    }
+    
+    .trend-down {
+      color: var(--low);
+    }
+    
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+    
+    .table th, .table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    /* 구성비 열 사이에 세로선 추가 */
+    .table td:nth-child(3),
+    .table th:nth-child(3),
+    .table td:nth-child(5),
+    .table th:nth-child(5) {
+      border-right: 1px solid #e2e8f0;
+    }
+    
+    .table th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+    }
+    
+    .table tr:hover {
+      background-color: #f8fafc;
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    
+    .sankey-container {
+      height: 600px;
+      margin-bottom: 2rem;
+    }
+    
+    .kpi-card {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px var(--shadow);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+    }
+    
+    .kpi-card.positive::before {
+      background-color: var(--low);
+    }
+    
+    .kpi-card.negative::before {
+      background-color: var(--high);
+    }
+    
+    .kpi-card.neutral::before {
+      background-color: var(--medium);
+    }
+    
+    .kpi-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .kpi-change {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .kpi-desc {
+      font-size: 12px;
+      color: var(--secondary);
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+    
+    .table td:not(:first-child) {
+      text-align: center;
+    }
+    
+    .table th:not(:first-child) {
+      text-align: center;
+    }
+    
+    /* 첫 번째 열(항목명)은 좌측 정렬 유지 */
+    .table td:first-child,
+    .table th:first-child {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1 class="title">위메이커넥트 주식회사 재무분석 보고서</h1>
+        <p class="subtitle">2025년 1월 1일 ~ 2025년 12월 31일</p>
+      </div>
+      <div>
+        <p>보고서 작성일: 2025년 4월 9일</p>
+      </div>
+    </header>
+
+    <section>
+      <h2 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        1. 요약 (Executive Summary)
+      </h2>
+      <div class="card">
+        <p style="margin-bottom: 1rem;">
+          위메이커넥트의 2025년 재무상태는 전년에 이어 지속적인 개선을 보였습니다. 총자산은 2.4조원으로 전년(1.9조원) 대비 26.3% 증가했으며, 
+          현금성자산은 0.75조원으로 전년(0.52조원) 대비 44.2% 증가했습니다. 부채는 0.92조원으로 전년(0.85조원) 대비 8.2% 증가했으며, 
+          자본은 1.48조원으로 전년(1.05조원) 대비 41.0% 증가하여 재무구조가 한층 더 견고해졌습니다.
+        </p>
+        <p style="margin-bottom: 1rem;">
+          특히 주목할 만한 변화로는 매출채권이 0.35조원으로 전년(0.28조원) 대비 25.0% 증가했으며, 차입금 총액이 0.38조원으로 전년(0.42조원) 대비 9.5% 감소하여 
+          재무건전성이 지속적으로 개선되었습니다. 이익잉여금은 1.23조원으로 전년(0.85조원) 대비 44.7% 증가하여 내부유보가 더욱 확충되었습니다.
+        </p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>주요 재무지표</th>
+              <th>2025 회계연도</th>
+              <th>2024 회계연도</th>
+              <th>증감액</th>
+              <th>증감률</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>총자산</td>
+              <td>2.40조원</td>
+              <td>1.90조원</td>
+              <td>0.50조원</td>
+              <td style="color: var(--low);">+26.3%</td>
+            </tr>
+            <tr>
+              <td>부채총계</td>
+              <td>0.92조원</td>
+              <td>0.85조원</td>
+              <td>0.07조원</td>
+              <td style="color: var(--high);">+8.2%</td>
+            </tr>
+            <tr>
+              <td>자본총계</td>
+              <td>1.48조원</td>
+              <td>1.05조원</td>
+              <td>0.43조원</td>
+              <td style="color: var(--low);">+41.0%</td>
+            </tr>
+            <tr>
+              <td>유동자산</td>
+              <td>1.26조원</td>
+              <td>0.95조원</td>
+              <td>0.31조원</td>
+              <td style="color: var(--low);">+32.6%</td>
+            </tr>
+            <tr>
+              <td>비유동자산</td>
+              <td>1.14조원</td>
+              <td>0.95조원</td>
+              <td>0.19조원</td>
+              <td style="color: var(--low);">+20.0%</td>
+            </tr>
+            <tr>
+              <td>유동부채</td>
+              <td>0.56조원</td>
+              <td>0.52조원</td>
+              <td>0.04조원</td>
+              <td style="color: var(--high);">+7.7%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section style="margin-top: 2rem;">
+      <h2 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+        2. 핵심지표
+      </h2>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 16px; color: var(--text-dark);">주요지표로 본 2025년 재무현황</h3>
+        <p style="margin-bottom: 1rem; line-height: 1.6;">
+          2025년 위메이커넥트의 재무상태는 전년도에 이어 자산과 자본의 지속적인 증가와 부채비율의 감소로 더욱 개선되었습니다.
+          현금성자산이 44.2% 증가하고 차입금이 9.5% 감소하여 재무안정성이 한층 더 향상되었으며,
+          이익잉여금의 44.7% 증가로 자기자본이 더욱 견고해졌습니다.
+        </p>
+      </div>
+
+      <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="kpi-card positive">
+          <div class="kpi-title">현금성자산</div>
+          <div class="kpi-value">0.75조원</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6-6 6 6"></path><path d="M6 15h12"></path></svg>
+            +44.2% 전년 대비
+          </div>
+          <div class="kpi-desc">유동성 강화로 재무안정성 지속 향상</div>
+        </div>
+
+        <div class="kpi-card positive">
+          <div class="kpi-title">매출채권</div>
+          <div class="kpi-value">0.35조원</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6-6 6 6"></path><path d="M6 15h12"></path></svg>
+            +25.0% 전년 대비
+          </div>
+          <div class="kpi-desc">영업활동으로 인한 채권 지속 증가</div>
+        </div>
+
+        <div class="kpi-card positive">
+          <div class="kpi-title">차입금 총액</div>
+          <div class="kpi-value">0.38조원</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6 6 6-6"></path><path d="M6 9h12"></path></svg>
+            -9.5% 전년 대비
+          </div>
+          <div class="kpi-desc">부채 지속 감소로 재무건전성 강화</div>
+        </div>
+
+        <div class="kpi-card positive">
+          <div class="kpi-title">유형자산</div>
+          <div class="kpi-value">0.64조원</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6-6 6 6"></path><path d="M6 15h12"></path></svg>
+            +18.5% 전년 대비
+          </div>
+          <div class="kpi-desc">지속적인 생산설비 투자로 자산 증가</div>
+        </div>
+
+        <div class="kpi-card positive">
+          <div class="kpi-title">이익잉여금</div>
+          <div class="kpi-value">1.23조원</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6-6 6 6"></path><path d="M6 15h12"></path></svg>
+            +44.7% 전년 대비
+          </div>
+          <div class="kpi-desc">내부유보 추가 확충으로 자기자본 강화</div>
+        </div>
+
+        <div class="kpi-card positive">
+          <div class="kpi-title">부채비율</div>
+          <div class="kpi-value">62.2%</div>
+          <div class="kpi-change" style="color: var(--low);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6 6 6-6"></path><path d="M6 9h12"></path></svg>
+            -18.8%p 전년 대비
+          </div>
+          <div class="kpi-desc">자기자본 지속 증가로 재무안정성 강화</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 2rem;">
+      <h2 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        3. 2024-2025 회계연도 재무 흐름도
+      </h2>
+      <div class="card">
+        <div class="sankey-container">
+          <!-- 2024년 Sankey 다이어그램 -->
+          <svg viewBox="0 0 1000 550" xmlns="http://www.w3.org/2000/svg">
+            <!-- 제목 -->
+            <text x="500" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#1e40af">위메이커넥트 2024년 재무 흐름도 (단위: 억원)</text>
+            
+            <!-- 노드 - 매출 섹션 -->
+            <rect x="80" y="80" width="30" height="250" rx="4" fill="#4F46E5" opacity="0.9" />
+            <text x="120" y="180" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출액 (8,750)</text>
+            
+            <!-- 노드 - 매출원가 및 이익 섹션 -->
+            <rect x="250" y="80" width="30" height="180" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="290" y="180" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출원가 (4,375)</text>
+            
+            <rect x="250" y="270" width="30" height="150" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="290" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출총이익 (4,375)</text>
+            
+            <!-- 노드 - 판관비 섹션 -->
+            <rect x="420" y="80" width="30" height="80" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="460" y="120" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">판매비와관리비 (2,125)</text>
+            
+            <rect x="420" y="270" width="30" height="150" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="460" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">영업이익 (2,250)</text>
+            
+            <!-- 노드 - 영업외손익 -->
+            <rect x="590" y="80" width="30" height="100" rx="4" fill="#4F46E5" opacity="0.9" />
+            <text x="630" y="120" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">금융수익 (375)</text>
+            
+            <rect x="590" y="190" width="30" height="120" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="630" y="240" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">금융비용 (450)</text>
+            
+            <!-- 노드 - 당기순이익 -->
+            <rect x="760" y="270" width="30" height="150" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="800" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">당기순이익 (1,750)</text>
+            
+            <!-- 연결선들... -->
+            <path d="M110 180 Q180 180 250 180" stroke="#4F46E5" stroke-width="250" fill="none" opacity="0.2" />
+            <path d="M280 180 Q350 180 420 180" stroke="#EF4444" stroke-width="200" fill="none" opacity="0.2" />
+            <path d="M450 330 Q520 330 590 330" stroke="#EF4444" stroke-width="50" fill="none" opacity="0.2" />
+            <path d="M620 120 Q690 220 760 330" stroke="#4F46E5" stroke-width="100" fill="none" opacity="0.2" />
+            <path d="M620 240 Q690 280 760 330" stroke="#EF4444" stroke-width="120" fill="none" opacity="0.2" />
+          </svg>
+        </div>
+
+        <div class="sankey-container">
+          <svg viewBox="0 0 1000 550" xmlns="http://www.w3.org/2000/svg">
+            <!-- 제목 -->
+            <text x="500" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#1e40af">위메이커넥트 2025년 재무 흐름도 (단위: 억원)</text>
+            
+            <!-- 노드 - 매출 섹션 -->
+            <rect x="80" y="80" width="30" height="300" rx="4" fill="#4F46E5" opacity="0.9" />
+            <text x="120" y="180" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출액 (11,450)</text>
+            
+            <!-- 노드 - 매출원가 및 이익 섹션 -->
+            <rect x="250" y="80" width="30" height="160" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="290" y="180" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출원가 (4,925)</text>
+            
+            <rect x="250" y="270" width="30" height="180" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="290" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">매출총이익 (6,525)</text>
+            
+            <!-- 노드 - 판관비 섹션 -->
+            <rect x="420" y="80" width="30" height="90" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="460" y="120" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">판매비와관리비 (2,375)</text>
+            
+            <rect x="420" y="270" width="30" height="180" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="460" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">영업이익 (4,150)</text>
+            
+            <!-- 노드 - 영업외손익 -->
+            <rect x="590" y="80" width="30" height="110" rx="4" fill="#4F46E5" opacity="0.9" />
+            <text x="630" y="120" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">금융수익 (525)</text>
+            
+            <rect x="590" y="190" width="30" height="100" rx="4" fill="#EF4444" opacity="0.9" />
+            <text x="630" y="240" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">금융비용 (425)</text>
+            
+            <!-- 노드 - 당기순이익 -->
+            <rect x="760" y="270" width="30" height="180" rx="4" fill="#10B981" opacity="0.9" />
+            <text x="800" y="330" font-family="Arial" font-size="14" fill="#334155" font-weight="bold">당기순이익 (3,650)</text>
+            
+            <!-- 연결선들... -->
+            <path d="M110 180 Q180 180 250 180" stroke="#4F46E5" stroke-width="250" fill="none" opacity="0.2" />
+            <path d="M280 180 Q350 180 420 120" stroke="#EF4444" stroke-width="80" fill="none" opacity="0.2" />
+            <path d="M280 330 Q350 330 420 330" stroke="#10B981" stroke-width="150" fill="none" opacity="0.2" />
+            <path d="M450 330 Q520 330 590 120" stroke="#4F46E5" stroke-width="100" fill="none" opacity="0.2" />
+            <path d="M450 330 Q520 330 590 240" stroke="#EF4444" stroke-width="120" fill="none" opacity="0.2" />
+            <path d="M620 330 Q690 330 760 330" stroke="#10B981" stroke-width="150" fill="none" opacity="0.2" />
+          </svg>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <h3 style="margin-bottom: 0.5rem; font-size: 16px;">판매비와관리비 명세 비교 (2024-2025)</h3>
+          
+          <!-- 판관비 비교 테이블 -->
+          <table class="table" style="font-size: 0.9em;">
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th>2025년</th>
+                <th>구성비</th>
+                <th>2024년</th>
+                <th>구성비</th>
+                <th>증감률</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>급여</td>
+                <td>586,320</td>
+                <td>24.7%</td>
+                <td>508,975</td>
+                <td>24.0%</td>
+                <td style="color: var(--low);">+15.2%</td>
+              </tr>
+              <tr>
+                <td>퇴직급여</td>
+                <td>25,315</td>
+                <td>1.1%</td>
+                <td>22,525</td>
+                <td>1.1%</td>
+                <td style="color: var(--low);">+12.4%</td>
+              </tr>
+              <tr>
+                <td>복리후생비</td>
+                <td>106,830</td>
+                <td>4.5%</td>
+                <td>92,450</td>
+                <td>4.4%</td>
+                <td style="color: var(--low);">+15.6%</td>
+              </tr>
+              <tr>
+                <td>지급수수료</td>
+                <td>285,410</td>
+                <td>12.0%</td>
+                <td>263,500</td>
+                <td>12.4%</td>
+                <td style="color: var(--low);">+8.3%</td>
+              </tr>
+              <tr>
+                <td>감가상각비</td>
+                <td>98,645</td>
+                <td>4.2%</td>
+                <td>94,575</td>
+                <td>4.5%</td>
+                <td style="color: var(--low);">+4.3%</td>
+              </tr>
+              <tr>
+                <td>무형자산상각비</td>
+                <td>112,970</td>
+                <td>4.8%</td>
+                <td>105,575</td>
+                <td>5.0%</td>
+                <td style="color: var(--low);">+7.0%</td>
+              </tr>
+              <tr>
+                <td>운반보관비</td>
+                <td>28,625</td>
+                <td>1.2%</td>
+                <td>26,875</td>
+                <td>1.3%</td>
+                <td style="color: var(--low);">+6.5%</td>
+              </tr>
+              <tr>
+                <td>세금과공과</td>
+                <td>45,125</td>
+                <td>1.9%</td>
+                <td>40,375</td>
+                <td>1.9%</td>
+                <td style="color: var(--low);">+11.8%</td>
+              </tr>
+              <tr>
+                <td>광고선전비</td>
+                <td>275,950</td>
+                <td>11.6%</td>
+                <td>222,125</td>
+                <td>10.5%</td>
+                <td style="color: var(--low);">+24.2%</td>
+              </tr>
+              <tr>
+                <td>소모품비</td>
+                <td>38,425</td>
+                <td>1.6%</td>
+                <td>37,625</td>
+                <td>1.8%</td>
+                <td style="color: var(--low);">+2.1%</td>
+              </tr>
+              <tr>
+                <td>판매촉진비</td>
+                <td>215,625</td>
+                <td>9.1%</td>
+                <td>182,750</td>
+                <td>8.6%</td>
+                <td style="color: var(--low);">+18.0%</td>
+              </tr>
+              <tr>
+                <td>품질관리비</td>
+                <td>32,775</td>
+                <td>1.4%</td>
+                <td>30,625</td>
+                <td>1.4%</td>
+                <td style="color: var(--low);">+7.0%</td>
+              </tr>
+              <tr>
+                <td>기타</td>
+                <td>115,625</td>
+                <td>4.9%</td>
+                <td>106,250</td>
+                <td>5.0%</td>
+                <td style="color: var(--low);">+8.8%</td>
+              </tr>
+              <tr>
+                <td>경상개발비</td>
+                <td>407,785</td>
+                <td>17.2%</td>
+                <td>385,775</td>
+                <td>18.2%</td>
+                <td style="color: var(--low);">+5.7%</td>
+              </tr>
+              <tr style="font-weight: bold;">
+                <td>합계</td>
+                <td>2,375,425</td>
+                <td>100%</td>
+                <td>2,120,000</td>
+                <td>100%</td>
+                <td style="color: var(--low);">+12.0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <script>
+          function toggleDetailTable() {
+            const detailTable = document.getElementById('detailTable');
+            detailTable.style.display = detailTable.style.display === 'none' ? 'block' : 'none';
+          }
+        </script>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>
+        <p>보고서 작성일: 2025년 4월 9일</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
