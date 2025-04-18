@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디지털 사이니지 플랫폼</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #64748B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary);
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 2px solid #e2e8f0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a202c;
+        }
+        
+        .status-icon {
+            display: inline-block;
+            min-width: 20px;
+            margin-right: 8px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .status-icon::before {
+            content: '-';
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .screenshot-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .screenshot-container:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .profile-badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="card mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="title gradient-text">디지털 사이니지 플랫폼</h1>
+                    <p class="subtitle mt-2">스마트폰을 활용한 저가형 스마트 사이니지 플랫폼</p>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 개요 섹션 -->
+        <section class="card">
+            <h2 class="section-title">프로젝트 개요</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">프로젝트 기간</h3>
+                    </div>
+                    <p class="text-gray-600">18.03 ~ 18.11</p>
+                </div>
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">업무 범위</h3>
+                    </div>
+                    <p class="text-gray-600">프로세스 혁신(PI)<br>ERP-WMS 통합 설계<br>유통 특화 기능 설계<br>사용자 맞춤형 UI 설계(UI/UX)<br>발주사 PM</p>
+                </div>
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">핵심 가치</h3>
+                    </div>
+                    <p class="text-gray-600">전용 셋탑박스와 스마트폰을 통해, 누구나 쉽게 메뉴판이나 이벤트, 홍보 등 세련된 디지털광고를 제작하고 매장 내 TV를 통해 출력할 수 있는 혁신적인 플랫폼
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 요구사항 섹션 -->
+        <section class="card">
+            <h2 class="section-title">요구사항 (RFP)</h2>
+            <div class="space-y-6">
+                <div class="feature-card" style="background-color: #EBF2FF; border-color: #2563EB;">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-3">핵심 요구사항</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <span class="status-icon mt-1"></span>
+                                    <span>매장 내 사용되지 않는 유휴 TV와 고객의 스마트폰을 연동하여 소상공인이 직접 관리 가능한 디지털 메뉴판으로 활용할 수 있어야 함.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="status-icon mt-1"></span>
+                                    <span>메뉴 가격, 품목, 프로모션 등의 변경사항을 실시간으로 편리하게 반영 및 관리할 수 있어야 함.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="status-icon mt-1"></span>
+                                    <span>고객 스마트폰을 통해 개인 맞춤형 메뉴 추천과 프로모션 알림 등 맞춤형 마케팅 기능을 제공할 수 있어야 함.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="status-icon mt-1"></span>
+                                    <span>별도의 추가 장비 없이 매장 내 기존 TV와 고객이 소지한 스마트폰만으로 간편하게 서비스를 구현할 수 있어야 함.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="status-icon mt-1"></span>
+                                    <span>고객의 관심도를 높이고 매출 증대를 위한 다양한 홍보 및 광고 콘텐츠 송출 기능을 제공해야 함.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="background-color: #f8fafc; border: 1px dashed #2563EB; min-height: 300px; display: flex; align-items: center; justify-content: center;">
+                            <img src="스샷/핵심 요구사항 이미지.png" alt="핵심 요구사항" style="width: 100%; height: 300px; object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="feature-card">
+                        <h3 class="font-semibold text-gray-800 mb-3">스마트폰으로 언제 어디서나</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>PC가 없어도 스마트폰만 있으면 언제 어디서나 간편하게 콘텐츠 제작 및 수정 가능</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>인터넷만 있으면 실시간 메뉴판 및 광고 콘텐츠 관리 가능</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>누구나 쉽게 사용할 수 있는 직관적인 인터페이스 제공</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="font-semibold text-gray-800 mb-3">높은 가격 경쟁력</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>별도의 고가 장비 없이 안드로이드 기반 셋탑박스와 기존 장비(TV, 스마트폰) 활용으로 비용 최소화</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>초기 투자비용 및 운영비 절감으로 소상공인의 부담 감소</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="font-semibold text-gray-800 mb-3">손쉬운 제작</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>다양한 템플릿 제공으로 메뉴판, 광고 콘텐츠를 쉽고 빠르게 제작 가능</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>실시간 미리보기 기능으로 직관적인 콘텐츠 관리 및 업데이트 가능</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="font-semibold text-gray-800 mb-3">강력한 관리 기능</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>여러 디스플레이를 통합 관리하는 '디스플레이 그룹' 및 '캠페인' 기능 제공</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>본점과 지점 간 사용자 권한 설정 및 콘텐츠 관리 용이</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="status-icon mt-1"></span>
+                                <span>특정 요일과 시간대 맞춤형 콘텐츠 노출 가능</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 프로젝트 타임라인 섹션 -->
+        <section class="card">
+            <h2 class="section-title">프로젝트 타임라인</h2>
+            
+            <div class="mb-6">
+                <div class="progress-bar mb-8">
+                    <div class="progress-bar-fill" style="width: 100%;"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                    <div class="timeline-item" style="height: 100%;">
+                        <div class="timeline-date">18.03 ~ 18.06</div>
+                        <div class="timeline-title">사전조사 & 업체 선정</div>
+                        <div class="timeline-content">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• 경쟁사 분석</li>
+                                <li>• 업체 미팅 및 견적서 수령</li>
+                                <li>• 위탁업체 확정 및 등록</li>
+                                <li>• 위탁 계약 체결</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" style="height: 100%;">
+                        <div class="timeline-date">18.04 ~ 18.07</div>
+                        <div class="timeline-title">기획</div>
+                        <div class="timeline-content">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• 상세 기능명세서 제작</li>
+                                <li>• UI/UX 기획 및 설계</li>
+                                <li>• 전체 시스템 기능 설계 및 DB 설계</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" style="height: 100%;">
+                        <div class="timeline-date">18.07 ~ 18.08</div>
+                        <div class="timeline-title">디자인</div>
+                        <div class="timeline-content">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• 통합 관리자 디자인</li>
+                                <li>• 모바일 앱 디자인</li>
+                                <li>• 템플릿 및 위젯 디자인</li>
+                                <li>• CI & BI 제작</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="height: 100%;">
+                        <div class="timeline-date">18.07 ~ 18.11</div>
+                        <div class="timeline-title">개발</div>
+                        <div class="timeline-content">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• 통합 관리자 개발</li>
+                                <li>• 모바일 앱 개발</li>
+                                <li>• 메시지 서버 개발 (API)</li>
+                                <li>• 플레이어 개발</li>
+                                <li>• 통합 테스트</li>
+                                <li>• 문제점 보완 및 기능 개선</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="height: 100%;">
+                        <div class="timeline-date">18.10 ~ </div>
+                        <div class="timeline-title">영업 및 마케팅</div>
+                        <div class="timeline-content">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• 카탈로그 제작</li>
+                                <li>• 특허출원</li>
+                                <li>• 홍보영상 제작</li>
+                                <li>• 온라인/오프라인 광고</li>
+                                <li>• 영업(오프라인)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 서비스 기획 섹션 -->
+        <section class="card">
+            <h2 class="section-title">서비스 기획</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획1.png" alt="기존 제품의 활용사례 조사" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="기존 제품의 활용사례 조사" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획2.png" alt="경쟁사 조사" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="경쟁사 조사" />
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획3.png" alt="개발 개요" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="개발 개요" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획4.png" alt="기능명세서" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="기능명세서" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획5.png" alt="화면설계" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="화면설계" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/기획6.png" alt="템플릿 다양화" style="width: 100%; height: 300px; object-fit: contain;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="템플릿 다양화" />
+                </div>
+            </div>
+        </section>
+        
+        <!-- 실제 진행 섹션 -->
+        <section class="card">
+            <h2 class="section-title">진행 과정</h2>
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행1.png" alt="진행 계획 협의" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="진행 계획 협의" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행2.png" alt="일정 협의" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="일정 협의" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행3.png" alt="디자인 협의" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="디자인 협의" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행4.png" alt="셋탑박스 발굴" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="셋탑박스 발굴" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행5.png" alt="기능 설계" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="기능 설계" />
+                </div>
+                <div class="flex flex-col">
+                    <div class="screenshot-container mb-2">
+                        <img src="스샷/진행6.png" alt="구현 테스트" style="width: 100%; height: 500px; object-fit: cover;">
+                    </div>
+                    <input type="text" class="w-full p-2 border border-gray-200 rounded-md text-sm text-center" value="구현 테스트" />
+                </div>
+            </div>
+        </section>
+        
+        <!-- 주요 GUI 섹션 -->
+        <section class="card">
+            <h2 class="section-title">주요 GUI</h2>
+            
+            <div style="display: flex; flex-direction: column;">
+                <div class="screenshot-container" style="border-radius: 0; margin: 0;">
+                    <img src="스샷/GUI1.png" alt="GUI 화면 1" style="width: 100%; display: block; object-fit: cover;">
+                </div>
+
+                <div class="screenshot-container" style="border-radius: 0; margin: 0;">
+                    <img src="스샷/GUI2.png" alt="GUI 화면 2" style="width: 100%; display: block; object-fit: cover;">
+                </div>
+                
+                <div class="screenshot-container" style="border-radius: 0; margin: 0;">
+                    <img src="스샷/GUI3.png" alt="GUI 화면 3" style="width: 100%; display: block; object-fit: cover;">
+                </div>
+
+                <div class="screenshot-container" style="border-radius: 0; margin: 0;">
+                    <img src="스샷/GUI4.png" alt="GUI 화면 4" style="width: 100%; display: block; object-fit: cover;">
+                </div>
+            </div>
+        </section>
+        
+        <!-- 프로젝트 복기 섹션 -->
+        <section class="card">
+            <h2 class="section-title">프로젝트 복기</h2>
+            
+            <div class="space-y-8">
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">요구사항 배경 및 문제 정의</h3>
+                    </div>
+                    <p class="text-gray-600">소상공인들이 매장 내에서 홍보나 메뉴판으로 활용할 수 있는 디지털 광고 시스템이 필요했으나, 기존 제품은 고가의 장비와 복잡한 관리 방식으로 인해 진입 장벽이 높았습니다. 또한 매장에서 사용하지 않는 유휴 TV를 활용하여 별도의 고가 장비 없이 간편하게 광고 콘텐츠를 제작하고 관리할 수 있는 시스템 구축이 필요했습니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">설계 관점의 접근 및 해결 방안</h3>
+                    </div>
+                    <p class="text-gray-600">소상공인의 비용 부담과 관리 복잡성을 최소화하기 위해 스마트폰과 안드로이드 기반 셋탑박스를 활용하여 저비용의 효율적인 디지털 사이니지 플랫폼을 설계하였습니다. 매장 내 기존 TV와 고객이 보유한 스마트폰만으로 서비스를 쉽게 구현할 수 있도록 하였으며, 직관적이고 간편한 UI를 통해 누구나 쉽게 메뉴판과 프로모션 등 콘텐츠를 제작·관리할 수 있도록 기획하였습니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">구현 및 개발 세부 사항</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>별도의 PC 없이 스마트폰만으로 콘텐츠를 제작·수정할 수 있는 웹과 모바일 기반의 관리 기능을 구현하였습니다.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>다양한 템플릿과 실시간 미리보기 기능을 제공하여 사용자가 직관적으로 콘텐츠를 관리하고 업데이트할 수 있도록 하였습니다.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>여러 디스플레이를 통합 관리할 수 있는 '디스플레이 그룹'과 '캠페인' 기능을 구현하여 효율적인 관리와 콘텐츠 송출이 가능하게 하였습니다.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>본점과 지점 간의 사용자 권한 설정 및 콘텐츠 관리가 용이하도록 관리 기능을 설계하였습니다.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">성과 분석 및 평가</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>고가 장비 없이 기존의 TV와 스마트폰만으로도 플랫폼 사용이 가능하여 소상공인의 초기 투자 및 운영비용 부담이 현저히 줄었습니다.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>실시간으로 메뉴 및 프로모션 업데이트가 가능해져 매장 운영 효율성과 고객 대응력이 크게 향상되었습니다.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="status-icon mt-1"></span>
+                            <span>2019년 후속 연계 지원 사업을 통해 "터치 인터페이스를 통해 주문이 가능한 양방향 디지털사이니지" 플렛폼 개발과제를 제안하였으나, 후속 과제에서 간발의 차로 선정되지 못해 고도화에는 실패하였습니다.</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <div class="screenshot-container" style="width: 100%; height: 800px; display: flex; align-items: center; justify-content: center; background: #f8fafc;">
+                            <img src="스샷/후속.png" alt="성과 분석" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                        <input type="text" class="w-full mt-2 p-2 border border-gray-200 rounded-md text-sm text-center" value="성과 분석" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 푸터 -->
+        <footer class="footer">
+            <p class="font-medium text-gray-800 mb-2">연철희 | 디지털 혁신 & 비즈니스 전략 | AI·ERP·DX·PI 전문가</p>
+            <br>
+            <p class="text-sm text-red-600 whitespace-pre-line">본 자료는 지정된 수신인을 위한 것이며, 부정경쟁방지 및 영업비밀의 보호에 관한 법률과 기타의 관계 법령에 따라 보호의 대상이 되는 영업비밀, 기밀정보 등을 포함하고 있을 수 있습니다.
+
+본 문서에 포함된 정보의 전부 또는 일부를 무단으로 제3자에게 공개, 배포, 복사 또는 사용하는 것은 엄격히 금지됩니다. 본 자료를 잘못 수신한 경우, 발신인 또는 당사에 알려주시고, 본 자료를 즉시 삭제하여 주시기 바랍니다.</p>
+        </footer>
+    </div>
+</body>
+</html>
